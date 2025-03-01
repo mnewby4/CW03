@@ -41,11 +41,11 @@ class Task {
 //Main screen of our app
 class _TaskListPage extends State<TaskPage> {
   //define list of tasks [obj w name + complete status] as an instance variable
-  List<Task> taskList= [];
+  List<Task> _taskList= [];
 
    _addTask() {
     setState(() {
-      taskList.add(Task(text1.text, false));
+      _taskList.add(Task(text1.text, false));
     });
     //print(taskList[taskList.length - 1].taskName);
   }
@@ -73,38 +73,29 @@ class _TaskListPage extends State<TaskPage> {
               onPressed: _addTask,
               child: Text('Add Task'),
             ),
-            /*Expanded(
+            Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: _taskName.length,
+                  itemCount: _taskList.length,
                   itemBuilder: (context, index) {
-                    /*return GestureDetector(
+                    return GestureDetector(
                       onTap: () {
                         //push=adds route to stack of routes managed by navigator
-                        Navigator.push(context,
+                        /*Navigator.push(context,
                           MaterialPageRoute(builder: (context) => DetailsPage(
-                            recipeName: _taskName[index],
+                            taskName: _taskList[index],
                           )),
                         );*/
+                        print('Hello');
                       },
                       child: ListTile(
-                        title: Text(_taskName[index]),
+                        title: Text('Task: ' + _taskList[index].taskName + 
+                                    ' - Completion: ${_taskList[index].markComplete}'),
                       ),
-                    );
-                    return ListView.builder(
-                      padding: const EdgeInsets.all(8),
-                      itemCount: taskList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 50,
-                          color: Colors.amber,
-                          child: Center(child: Text('Task: ${taskList[index]}')),
-                        );
-                      }
                     );
                   },
                 ),
-              ),*/
+              ),
           ],
         ),
       ),
