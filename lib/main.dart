@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+TextEditingController text1 = TextEditingController();
+
 void main() {
   runApp(const MyApp());
 }
@@ -15,27 +17,37 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const TaskPage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class TaskPage extends StatefulWidget {
+  const TaskPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<TaskPage> createState() => _TaskListPage();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class Task {
+  String taskName;
+  bool markComplete;
 
-  void _incrementCounter() {
+  Task(this.taskName, this.markComplete);
+}
+
+//Main screen of our app
+class _TaskListPage extends State<TaskPage> {
+  //define list of tasks [obj w name + complete status] as an instance variable
+  List<Task> taskList= [];
+
+   _addTask() {
     setState(() {
-      _counter++;
+      taskList.add(Task(text1.text, false));
     });
+    //print(taskList[taskList.length - 1].taskName);
   }
 
   @override
@@ -49,21 +61,58 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            TextField(
+              obscureText: false,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Task Name',
+              ),
+              controller: text1,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            ElevatedButton(
+              onPressed: _addTask,
+              child: Text('Add Task'),
             ),
+            /*Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _taskName.length,
+                  itemBuilder: (context, index) {
+                    /*return GestureDetector(
+                      onTap: () {
+                        //push=adds route to stack of routes managed by navigator
+                        Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => DetailsPage(
+                            recipeName: _taskName[index],
+                          )),
+                        );*/
+                      },
+                      child: ListTile(
+                        title: Text(_taskName[index]),
+                      ),
+                    );
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: taskList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          height: 50,
+                          color: Colors.amber,
+                          child: Center(child: Text('Task: ${taskList[index]}')),
+                        );
+                      }
+                    );
+                  },
+                ),
+              ),*/
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), 
+      ),*/ 
     );
   }
 }
