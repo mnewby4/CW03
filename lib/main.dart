@@ -56,6 +56,12 @@ class _TaskListPage extends State<TaskPage> {
     });
   }
 
+  _deleteTask(int index) {
+    setState(() {
+      _taskList.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +87,6 @@ class _TaskListPage extends State<TaskPage> {
             ),
             Expanded(
                 child: ListView.builder(
-                  shrinkWrap: true,
                   itemCount: _taskList.length,
                   itemBuilder: (context, index) {
                     return
@@ -103,6 +108,9 @@ class _TaskListPage extends State<TaskPage> {
                                           TextStyle(color: Colors.black)
                                     ),
                           ),//listtile
+                          ElevatedButton(
+                            onPressed: () { _deleteTask(index); },
+                            child: const Text('Delete task')),
                         ],//children/widget
                       );//column
                   },
