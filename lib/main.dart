@@ -50,6 +50,12 @@ class _TaskListPage extends State<TaskPage> {
     //print(taskList[taskList.length - 1].taskName);
   }
 
+  _markComplete(int index) {
+    setState(() {
+      _taskList[index].markComplete = _taskList[index].markComplete ? false : true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,21 +84,27 @@ class _TaskListPage extends State<TaskPage> {
                   shrinkWrap: true,
                   itemCount: _taskList.length,
                   itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        //push=adds route to stack of routes managed by navigator
-                        /*Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => DetailsPage(
-                            taskName: _taskList[index],
-                          )),
-                        );*/
-                        print('Hello');
-                      },
-                      child: ListTile(
-                        title: Text('Task: ' + _taskList[index].taskName + 
-                                    ' - Completion: ${_taskList[index].markComplete}'),
-                      ),
-                    );
+                    return
+                      Column( 
+                        children: [
+                          Checkbox(
+                            value: _taskList[index].markComplete, 
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _markComplete(index);
+                              });
+                            } 
+                          ),//checkbox
+                          ListTile(
+                            title: Text('Task: ' + _taskList[index].taskName + 
+                                          ' - Completion: ${_taskList[index].markComplete}',
+                                        style: _taskList[index].markComplete ? 
+                                          TextStyle(color: Colors.grey) : 
+                                          TextStyle(color: Colors.black)
+                                    ),
+                          ),//listtile
+                        ],//children/widget
+                      );//column
                   },
                 ),
               ),
