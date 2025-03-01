@@ -40,14 +40,12 @@ class Task {
 
 //Main screen of our app
 class _TaskListPage extends State<TaskPage> {
-  //define list of tasks [obj w name + complete status] as an instance variable
   List<Task> _taskList= [];
 
    _addTask() {
     setState(() {
       _taskList.add(Task(text1.text, false));
     });
-    //print(taskList[taskList.length - 1].taskName);
   }
 
   _markComplete(int index) {
@@ -69,7 +67,8 @@ class _TaskListPage extends State<TaskPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -85,45 +84,47 @@ class _TaskListPage extends State<TaskPage> {
               onPressed: _addTask,
               child: Text('Add Task'),
             ),
-            Expanded(
+            const SizedBox(height: 10),
+            //Row( children: [
+              Expanded(
                 child: ListView.builder(
                   itemCount: _taskList.length,
                   itemBuilder: (context, index) {
-                    return
-                      Column( 
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Checkbox(
-                            value: _taskList[index].markComplete, 
+                            value: _taskList[index].markComplete,
                             onChanged: (bool? value) {
                               setState(() {
                                 _markComplete(index);
                               });
-                            } 
-                          ),//checkbox
-                          ListTile(
-                            title: Text('Task: ' + _taskList[index].taskName + 
-                                          ' - Completion: ${_taskList[index].markComplete}',
-                                        style: _taskList[index].markComplete ? 
-                                          TextStyle(color: Colors.grey) : 
-                                          TextStyle(color: Colors.black)
-                                    ),
-                          ),//listtile
-                          ElevatedButton(
-                            onPressed: () { _deleteTask(index); },
-                            child: const Text('Delete task')),
-                        ],//children/widget
-                      );//column
+                            },
+                          ),
+                            Text(
+                              _taskList[index].taskName,
+                              style: TextStyle(
+                                color: _taskList[index].markComplete ? Colors.grey : Colors.black,
+                              ),
+                            ),
+                          SizedBox(width: 30.0),
+                          SizedBox(
+                            child: ElevatedButton(
+                              onPressed: () { _deleteTask(index); },
+                              child: Text('X'),
+                            ),
+                          ), 
+                        ],
+                      ),
+                    );
                   },
                 ),
               ),
           ],
         ),
       ),
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),*/ 
     );
   }
 }
